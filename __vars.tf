@@ -50,3 +50,7 @@ variable "subnets" {
 variable "assign_public_ip" {
   type = bool
 }
+
+variable "role_arn" {
+  type = string
+}
