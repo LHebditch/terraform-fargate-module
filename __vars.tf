@@ -1,51 +1,52 @@
 variable "cluster_id" {
-    type = string
+  type     = string
+  nullable = true
 }
 
 variable "name" {
-    type = string
+  type = string
 }
 
 variable "tags" {
-    type = map(string)
+  type = map(string)
 }
 
 variable "task_cpu" {
-    type = number
+  type = number
 }
 
 variable "task_memory" {
-    type = number
+  type = number
 }
 
 variable "region" {
-    type = string
+  type = string
 }
 
 variable "port_mappings" {
-    type = list(number)
+  type = list(number)
 }
 
 variable "environment" {
-    type = list(map(string))
+  type = list(map(string))
 }
 
 variable "container_image" {
-    type = string
+  type = string
 }
 
 variable "task_count" {
-    type = number
+  type = number
 }
 
 variable "security_groups" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "subnets" {
-    type = list(string)
+  type = list(string)
 }
 
 variable "assign_public_ip" {
-    type = bool
+  type = bool
 }

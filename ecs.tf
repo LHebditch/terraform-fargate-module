@@ -8,7 +8,7 @@ locals {
 
 resource "aws_ecs_cluster" "this" {
   // we only want to create this if the user doesn't give us a cluster to use
-  count = var.cluster_id ? 0 : 1
+  count = var.cluster_id == null ? 0 : 1
 
   name = "TF-${var.name}-cluster"
   setting {
@@ -83,7 +83,7 @@ resource "aws_ecs_task_definition" "this" {
 
 resource "aws_ecs_service" "this" {
   name            = "TF-${var.name}-service"
-  cluster         = var.cluster_id ? var.cluster_id : aws_ecs_cluster.this[0].id
+  cluster         = var.cluster_id == null ? var.cluster_id : aws_ecs_cluster.this[0].id
   launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = var.task_count
