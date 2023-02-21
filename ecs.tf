@@ -1,8 +1,8 @@
 locals {
-  formatted_port_mappings = [for port in var.port_mappings: {
-    hostPort: port,
-    protocol: "tcp",
-    containerPort: port
+  formatted_port_mappings = [for port in var.port_mappings : {
+    hostPort : port,
+    protocol : "tcp",
+    containerPort : port
   }]
 }
 
@@ -19,11 +19,11 @@ resource "aws_ecs_cluster" "this" {
 }
 
 resource "aws_ecs_task_definition" "this" {
-  family = "TF-${var.name}-task-definition"
+  family                   = "TF-${var.name}-task-definition"
   requires_compatibilities = ["FARGATE"]
-  network_mode = "awsvpc" // required for use with fargate
-  cpu = var.task_cpu
-  memory = var.task_memory
+  network_mode             = "awsvpc" // required for use with fargate
+  cpu                      = var.task_cpu
+  memory                   = var.task_memory
 
   container_definitions = <<DEFINITION
   [
@@ -82,18 +82,18 @@ resource "aws_ecs_task_definition" "this" {
 }
 
 resource "aws_ecs_service" "this" {
-  name = "TF-${var.name}-service"
-  cluster = var.cluster_id ? var.cluster_id : aws_ecs_cluster.this[0].id
-  launch_type = "FARGATE"
+  name            = "TF-${var.name}-service"
+  cluster         = var.cluster_id ? var.cluster_id : aws_ecs_cluster.this[0].id
+  launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.this.arn
-  desired_count = var.task_count
+  desired_count   = var.task_count
 
   network_configuration {
-    security_groups = var.security_groups
-    subnets = var.subnets
+    security_groups  = var.security_groups
+    subnets          = var.subnets
     assign_public_ip = var.assign_public_ip
   }
-  tags = var.tags
+  tags                    = var.tags
   enable_ecs_managed_tags = true
-  propogate_tags = "SERVICE"
+  propagate_tags          = "SERVICE"
 }
