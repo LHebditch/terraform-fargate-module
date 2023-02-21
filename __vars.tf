@@ -54,3 +54,7 @@ variable "assign_public_ip" {
 variable "role_arn" {
   type = string
 }
+
+variable "execution_role_arn" {
+  type = string
+}

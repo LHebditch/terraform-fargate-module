@@ -18,11 +18,6 @@ resource "aws_ecs_cluster" "this" {
   tags = var.tags
 }
 
-data "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
-}
-
-
 resource "aws_ecs_task_definition" "this" {
   family                   = "TF-${var.name}-task-definition"
   requires_compatibilities = ["FARGATE"]
@@ -30,7 +25,7 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = var.task_cpu
   memory                   = var.task_memory
   task_role_arn            = var.role_arn
-  execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = var.execution_role_arn
 
   container_definitions = <<DEFINITION
   [
